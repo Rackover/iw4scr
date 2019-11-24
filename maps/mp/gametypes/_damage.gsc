@@ -669,10 +669,12 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	else if ( !isPlayer( attacker ) || (isPlayer( attacker ) && sMeansOfDeath == "MOD_FALLING") )
 	{
 		handleWorldDeath( attacker, lifeId, sMeansOfDeath, sHitLoc );
+    doKillcam = true;
 	}
 	else if ( attacker == victim )
 	{
 		handleSuicideDeath( sMeansOfDeath, sHitLoc );
+    doKillcam = true;
 	}
 	else if ( friendlyFire )
 	{

@@ -32,8 +32,8 @@ killcam(
 	self endon("spawned");
 	level endon("game_ended");
 	
-	if ( attackerNum < 0 )
-		return;
+	if ( attackerNum < 0 ) {
+    attackerNum = victim getEntityNumber();
 
 	// length from killcam start to killcam end
 	if (getdvar("scr_killcam_time") == "") {
