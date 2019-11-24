@@ -1,0 +1,406 @@
+{
+	menuDef
+	{
+		name main_text
+		fullscreen 1
+		rect 0 0 640 480
+		style 0
+		border 0
+		ownerdraw 0
+		ownerdrawFlag 0
+		borderSize 0
+		foreColor 1 1 1 1
+		backColor 0 0 0 0
+		borderColor 0 0 0 0
+		outlineColor 0 0 0 0
+		soundLoop music_mainmenu_mp
+		fadeCycle 1
+		fadeClamp 1
+		fadeAmount 0.1
+		fadeInAmount 0
+		blurWorld 0
+		onOpen
+		{
+			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow";
+		}
+		focusColor 1 1 1 1
+		#define DO_THE_CHICKEN_WING
+		#include "ui_mp/bg.inc"
+		itemDef
+		{
+			rect 304 270 288 72
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin 0 0
+			background logo_cod2
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 0
+		}
+
+#define CHOICE_Y(i) ( 28 + ( i * 20 ) )
+#define CHOICE_ORIGIN(i) -64 CHOICE_Y(i)
+#define CHOICE_RECT(i) CHOICE_ORIGIN(i) 336 20 1 1
+
+#define MENU_CHOICE_BUTTON_VIS( itemIndex, buttonName, textArg, actionArg, visArg) \
+		itemDef \
+		{ \
+			name buttonName \
+			rect CHOICE_RECT(itemIndex) \
+			foreColor 1 1 1 1 \
+			backColor 0 0 0 0 \
+			style 1 \
+			origin 0 0 \
+			background menu_button_selection_bar \
+			group mw2_button \
+			type 1 \
+			textAlign 6 \
+			textAlignX -60 \
+			textScale 0.375 \
+			textFont 3 \
+			text textArg \
+			onFocus \
+			{ \
+				play mouse_over; \
+				setItemColor self backcolor 0 0 0 1; \
+				setLocalVarBool ui_menuAButton 1; \
+				setLocalVarFloat ui_popupYPos 0.000000; \
+			} \
+			leaveFocus \
+			{ \
+				setItemColor self backcolor 0 0 0 0.0; \
+				setLocalVarBool ui_menuAButton 1; \
+			} \
+			action \
+			{ \
+				play mouse_click; \
+				actionArg \
+			} \
+			visible visArg \
+		} \
+
+		MENU_CHOICE_BUTTON_VIS(0, button_1, "BROWSE SERVERS", open pc_join_unranked;, 1)
+		MENU_CHOICE_BUTTON_VIS(1, button_2, "START PLAYING", 
+					exec "xrequirelivesignin";
+					setdvar "systemlink" 0;
+					setdvar "splitscreen" 0;
+					setdvar "onlinegame" 1;
+					exec "exec default_xboxlive.cfg";
+					exec "party_maxplayers 9";
+					exec "xblive_privatematch 0";
+					exec "xblive_rankedmatch 0";
+					exec "xstartprivateparty";
+					setdvar ui_mptype 0;
+					open menu_xboxlive;, 1)
+		MENU_CHOICE_BUTTON_VIS(2, button_3, "BARRACKS", open pc_options_video;, 1)
+		MENU_CHOICE_BUTTON_VIS(3, button_4, "OPTIONS", open pc_options_video;, 1)
+		MENU_CHOICE_BUTTON_VIS(4, button_5, "QUIT", open quit_popmenu;, 1)
+/*		itemDef
+		{
+			rect 232 28 40 20 1 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin 0 0
+			background specialty_new
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			visible 1
+			//visible when ( anynewmappacks( )  )
+		}*/
+/*		itemDef
+		{
+			name button_xboxlive
+			rect -64 48 336 20 1 1
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin -64 48
+			background menu_button_selection_bar
+			group mw2_button
+			type 1
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			text "@PLATFORM_PLAY_ONLINE_CAPS"
+			visible 1
+			onFocus
+			{
+				"play" "mouse_over";
+				"setItemColor" "self" "backcolor" 0 0 0 1;
+				setLocalVarBool ui_menuAButton 1;
+				setLocalVarFloat ui_popupYPos 0.000000;
+				"exec" "xcheckezpatchversion";
+			}
+			leaveFocus
+			{
+				"setItemColor" "self" "backcolor" 0 0 0 "0.0";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				"play" "mouse_click";
+				"setdvar" "ui_opensummary" 0;
+				if ( issplitscreenonlinepossible( )  )
+				{
+					"execnow" "splitscreencontrols";
+					"exec" "xrequirelivesignin";
+					"setdvar" "systemlink" 0;
+					"setdvar" "splitscreen" 1;
+					"setdvar" "onlinegame" 1;
+					"exec" "exec default_xboxlive.cfg";
+					"exec" "party_maxplayers 9";
+					"exec" "xblive_privatematch 0";
+					"exec" "xblive_rankedmatch 0";
+					"setdvar" "ui_mptype" 0;
+					"exec" "resetSplitscreenSignIn";
+					"open" "menu_splitscreensignin";
+				}
+				else
+				{
+					"execnow" "nosplitscreen";
+					"exec" "xrequirelivesignin";
+					"setdvar" "systemlink" 0;
+					"setdvar" "splitscreen" 0;
+					"setdvar" "onlinegame" 1;
+					"exec" "exec default_xboxlive.cfg";
+					"exec" "party_maxplayers 9";
+					"exec" "xblive_privatematch 0";
+					"exec" "xblive_rankedmatch 0";
+					"exec" "xstartprivateparty";
+					"setdvar" "ui_mptype" 0;
+					"open" "menu_xboxlive";
+				}
+			}
+		}
+		itemDef
+		{
+			rect 0 68 216 1 1 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.65
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin 0 68
+			background gradient_fadein
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			text "(null)"
+			visible 1
+		}
+		itemDef
+		{
+			name button_options
+			rect -64 68 336 20 1 1
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin -64 68
+			background menu_button_selection_bar
+			group mw2_button
+			type 1
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			text "@MENU_OPTIONS_CAPS"
+			visible 1
+			onFocus
+			{
+				"play" "mouse_over";
+				"setItemColor" "self" "backcolor" 0 0 0 1;
+				setLocalVarBool ui_menuAButton 1;
+				setLocalVarFloat ui_popupYPos 0.000000;
+			}
+			leaveFocus
+			{
+				"setItemColor" "self" "backcolor" 0 0 0 "0.0";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				"play" "mouse_click";
+				"open" "pc_options_video";
+			}
+		}
+		itemDef
+		{
+			rect 0 88 216 1 1 1
+			style 3
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 0.65
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin 0 88
+			background gradient_fadein
+			decoration 
+			type 0
+			align 0
+			textAlign 0
+			textAlignX 0
+			textAlignY 0
+			textScale 0.55
+			textStyle 0
+			textFont 0
+			feeder 0
+			text "(null)"
+			visible 1
+		}
+		itemDef
+		{
+			name button_singleplayer
+			rect -64 88 336 20 1 1
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin -64 88
+			background menu_button_selection_bar
+			group mw2_button
+			type 1
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			text "@MENU_MAIN_MENU_CAPS"
+			visible 1
+			onFocus
+			{
+				"play" "mouse_over";
+				"setItemColor" "self" "backcolor" 0 0 0 1;
+				setLocalVarBool ui_menuAButton 1;
+				setLocalVarFloat ui_popupYPos 0.000000;
+			}
+			leaveFocus
+			{
+				"setItemColor" "self" "backcolor" 0 0 0 "0.0";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				"play" "mouse_click";
+				"open" "single_popmenu";
+			}
+		}
+		itemDef
+		{
+			name button_quit
+			rect -64 108 336 20 1 1
+			style 1
+			border 0
+			ownerdraw 0
+			ownerdrawFlag 0
+			borderSize 0
+			foreColor 1 1 1 1
+			backColor 0 0 0 0
+			borderColor 0 0 0 0
+			outlineColor 0 0 0 0
+			origin -64 108
+			background menu_button_selection_bar
+			group mw2_button
+			type 1
+			align 0
+			textAlign 6
+			textAlignX -60
+			textAlignY 0
+			textScale 0.375
+			textStyle 0
+			textFont 3
+			feeder 0
+			text "@MENU_QUIT_CAPS"
+			visible 1
+			onFocus
+			{
+				"play" "mouse_over";
+				"setItemColor" "self" "backcolor" 0 0 0 1;
+				setLocalVarBool ui_menuAButton 1;
+				setLocalVarFloat ui_popupYPos 0.000000;
+			}
+			leaveFocus
+			{
+				"setItemColor" "self" "backcolor" 0 0 0 "0.0";
+				setLocalVarBool ui_menuAButton 1;
+			}
+			action
+			{
+				"play" "mouse_click";
+				"open" "quit_popmenu";
+			}
+		}*/
+	}
+}
