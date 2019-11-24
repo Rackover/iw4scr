@@ -759,7 +759,15 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	//prof_end( " PlayerKilled_5" );
 	//prof_begin( " PlayerKilled_6" );
 	
-	if ( isDefined( attacker.finalKill ) && doKillcam && !isDefined( level.nukeDetonated ) )
+  shouldFinalKillcam = true;
+  
+  foreach ( player in level.players )
+	{
+		if ( isAlive( player ) )
+			shouldFinalKillcam = false;
+  }
+  
+	if ( (shouldFinalKillcam || isDefined( attacker.finalKill )) && doKillcam && !isDefined( level.nukeDetonated ) )
 	{
 		level thread doFinalKillcam( 5.0, victim, attacker, attackerNum, killcamentityindex, killcamentitystarttime, sWeapon, deathTimeOffset, psOffsetTime );
 

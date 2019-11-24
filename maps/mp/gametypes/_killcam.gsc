@@ -34,6 +34,7 @@ killcam(
 	
 	if ( attackerNum < 0 ) {
     attackerNum = victim getEntityNumber();
+  }
 
 	// length from killcam start to killcam end
 	if (getdvar("scr_killcam_time") == "") {
