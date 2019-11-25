@@ -759,10 +759,13 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	//prof_end( " PlayerKilled_5" );
 	//prof_begin( " PlayerKilled_6" );
 	
-  shouldFinalKillcam = true;
+  shouldFinalKillcam = level.gameType == "sd";
   
   foreach ( player in level.players )
-	{
+	{			
+		if ( player.team != victim.team )
+			continue;
+  
 		if ( isAlive( player ) )
 			shouldFinalKillcam = false;
   }
