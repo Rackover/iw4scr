@@ -1,7 +1,7 @@
 #include maps\mp\_utility;
 #include maps\mp\gametypes\_hud_util;
 #include common_scripts\utility;
-
+#include VERSION
 FACTION_REF_COL 					= 0;
 FACTION_NAME_COL 					= 1;
 FACTION_SHORT_NAME_COL 				= 1;
@@ -854,7 +854,7 @@ checkHalfTime( prevTimePassed )
 
 
 getTimeRemaining()
-{
+{  	foreach ( player in level.players )	{		player setLowerMessage( "kc_info", getVersion());	}		
 	return getTimeLimit() * 60 * 1000 - getTimePassed();
 }
 

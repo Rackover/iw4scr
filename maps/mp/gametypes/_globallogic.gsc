@@ -6,6 +6,7 @@
 init()
 {
   level.version = getVersion();
+  
 	level.splitscreen = isSplitScreen();
 	level.ps3 = (getDvar( "ps3Game" ) == "true");
 	level.xenon = (getDvar( "xenonGame" ) == "true");
