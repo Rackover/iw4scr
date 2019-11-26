@@ -14,6 +14,7 @@ init()
 		setMatchData( "buildVersion", getBuildVersion() );
 		setMatchData( "buildNumber", getBuildNumber() );
 		setMatchData( "dateTime", getSystemTime() );
+    
 	}
 
 	//level.MaxLives = 250; // must match MaxKills in matchdata definition

@@ -1,9 +1,11 @@
 #include maps\mp\_utility;
 #include maps\mp\gametypes\_hud_util;
 #include common_scripts\utility;
+#include VERSION;
 
 init()
 {
+  level.version = getVersion();
 	level.splitscreen = isSplitScreen();
 	level.ps3 = (getDvar( "ps3Game" ) == "true");
 	level.xenon = (getDvar( "xenonGame" ) == "true");
