@@ -1,3 +1,3 @@
 getVersion(){
-  return 20;
+  return "v1.1.6";
 }
