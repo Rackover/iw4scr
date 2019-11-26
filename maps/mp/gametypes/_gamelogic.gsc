@@ -850,14 +850,11 @@ checkHalfTime( prevTimePassed )
 	
 	return false;
 }
-
-
-
+
 getTimeRemaining()
-{  	foreach ( player in level.players )	{		player setLowerMessage( "kc_info", getVersion());	}		
+{ 
 	return getTimeLimit() * 60 * 1000 - getTimePassed();
 }
-
 
 checkTeamScoreLimitSoon( team )
 {
