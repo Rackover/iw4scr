@@ -760,6 +760,7 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	//prof_begin( " PlayerKilled_6" );
 	
   // Will launch final killcam on round end if no one of the team alive
+  shouldFinalKillcam = true;
   foreach ( player in level.players )
 	{			
 		if ( player.team != victim.team )
