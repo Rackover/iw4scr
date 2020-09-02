@@ -776,7 +776,6 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
     
     foreach( player in level.players ){
         player setLowerMessage( "kc_info", "("+ (attacker == victim) +" "+ (attacker.finalKill) + " " + " ) "+shouldFinalKillcamIfNoAttacker+" "+isDefined( attacker.finalKill )+" "+doKillcam+" "+!isDefined( level.nukeDetonated ) );
-        wait ( 2.0 );
     }
   
 	if ( (shouldFinalKillcamIfNoAttacker || isDefined( attacker.finalKill )) && doKillcam && !isDefined( level.nukeDetonated ) )
