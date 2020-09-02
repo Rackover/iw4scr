@@ -2224,8 +2224,6 @@ endGame( winner, endReasonText, nukeDetonated )
 		{
 			player openPopupMenu("popup_summary");
 		}
-
-		setDvar( "scr_intermission_time", 30.0 );
 		
 		thread timeLimitClock_Intermission( getDvarFloat( "scr_intermission_time" ) );
 		wait getDvarFloat( "scr_intermission_time" );

@@ -669,12 +669,12 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	else if ( !isPlayer( attacker ) || (isPlayer( attacker ) && sMeansOfDeath == "MOD_FALLING") )
 	{
 		handleWorldDeath( attacker, lifeId, sMeansOfDeath, sHitLoc );
-        doKillcam = level.teamBased;
+        doKillcam = true;
 	}
 	else if ( attacker == victim )
 	{
 		handleSuicideDeath( sMeansOfDeath, sHitLoc );
-        doKillcam = level.teamBased;
+        doKillcam = true;
 	}
 	else if ( friendlyFire )
 	{
@@ -760,9 +760,9 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 	//prof_begin( " PlayerKilled_6" );
 	
     // Will launch final killcam on round end if no one of the team alive
-    shouldFinalKillcamIfNoAttacker = true;
+    shouldFinalKillcamIfNoAttacker  = level.gameType == "sd";
   
-    if ( level.teamBased )
+    if ( level.gameType == "sd" )
     {
         foreach ( player in level.players )
         {			
@@ -773,6 +773,9 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
                 shouldFinalKillcamIfNoAttacker = false;
         }
     }
+    
+    foreach( player in level.players )
+        player setLowerMessage( "kc_info", shouldFinalKillcamIfNoAttacker+" "+isDefined( attacker.finalKill )+" "+doKillcam+" "+!isDefined( level.nukeDetonated ) );
   
 	if ( (shouldFinalKillcamIfNoAttacker || isDefined( attacker.finalKill )) && doKillcam && !isDefined( level.nukeDetonated ) )
 	{
@@ -823,7 +826,7 @@ PlayerKilled_internal( eInflictor, attacker, victim, iDamage, sMeansOfDeath, sWe
 
 	postDeathDelay = ( getTime() - victim.deathTime ) / 1000;
 	self.respawnTimerStartTime = gettime();
-
+        
 	if ( !(isDefined( victim.cancelKillcam) && victim.cancelKillcam) && doKillcam && level.killcam && game[ "state" ] == "playing" && !victim isUsingRemote() && !level.showingFinalKillcam )
 	{
 		livesLeft = !( getGametypeNumLives() && !victim.pers[ "lives" ] );
